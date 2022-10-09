@@ -19,7 +19,7 @@ def main():
     menu = ['Home', 'About']
     choice = st.sidebar.selectbox("Menu", menu)
 
-    st.title("Instrumental""\nLearn with music!")
+    st.title("🎵 Instrumental 🎵""\nLearn with music!")
 
     if choice == "Home":
         # Nav search form
@@ -37,29 +37,49 @@ def main():
             options=['PRON', 'NOUN', 'VERB'])
         models = load_models()
         selected_model = models[selected_language]
-        st.success("Looking for {}'s songs with {}.".format(search_term, selected_structures))
-        blank = st.checkbox("Blank?")
+        # blank = st.checkbox("Fill in the blanks")
+        # highlight = st.checkbox("Highlight chosen structure")
+        mode = st.radio('Mode', ('Read', 'Highlight chosen structure', 'Fill in the blanks file'))
         col1, col2 = st.columns([2, 1])
         with col1:
             if submit_search:
+                st.success("Looking for {}'s songs containing {}.".format(search_term, selected_structures))
                 artist = genius.search_artist(search_term, max_songs=3, sort="title")
                 songs = artist.songs
                 for i in songs:
-                    title = i.title
-                    doc = selected_model(i.lyrics)
-                    tokens = process_text(doc, title, selected_structures, blank=blank)
-                    annotated_text(*tokens)
-                    if len(tokens) > 0:
+                    if mode == 'Read':
+                        st.write(i.lyrics)
                         break
+                    elif mode == 'Fill in the blanks file':
+                        doc = selected_model(i.lyrics)
+                        tokens = process_text(doc, selected_structures, blank=True, highlight=False)
+                        st.write(annotated_text(*tokens))
+                        if len(tokens) > 0:
+                            break
+                    elif mode == 'Highlight chosen structure':
+                        doc = selected_model(i.lyrics)
+                        tokens = process_text(doc, selected_structures, blank=False, highlight=True)
+                        annotated_text(*tokens)
+                        if len(tokens) > 0:
+                            break
 
 
-def process_text(doc, title, selected_structures, blank=False):
+def process_text(doc, selected_structures, blank=False, highlight=False):
     tokens = []
-    for token in doc:
-        if token.pos_ == selected_structures:
-            tokens.append((" " + "___" * len(token.text) + " "))
-        else:
-            tokens.append((" " + token.text + " "))
+    if blank:
+        for token in doc:
+            if token.pos_ == selected_structures:
+                tokens.append((" " + "___" * len(token.text) + " "))
+            else:
+                tokens.append((" " + token.text + " "))
+
+    elif highlight:
+        for token in doc:
+            if token.pos_ == selected_structures:
+                tokens.append((token.text, selected_structures, "#faa"))
+            else:
+                tokens.append((" " + token.text + " "))
+
     return tokens
 
 
