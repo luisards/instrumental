@@ -31,14 +31,12 @@ def main():
             with nav2:
                 submit_search = st.form_submit_button(label='Search')
 
-        selected_language = st.sidebar.selectbox("Select a language", options=['pt'])
+        selected_language = st.sidebar.selectbox("Select a language", options=['pt', 'en'])
         selected_structures = st.sidebar.selectbox(
             "Select a grammar structure",
             options=['PRON', 'NOUN', 'VERB'])
         models = load_models()
         selected_model = models[selected_language]
-        # blank = st.checkbox("Fill in the blanks")
-        # highlight = st.checkbox("Highlight chosen structure")
         mode = st.radio('Mode', ('Read', 'Highlight chosen structure', 'Fill in the blanks file'))
         col1, col2 = st.columns([2, 1])
         with col1:
@@ -48,18 +46,21 @@ def main():
                 songs = artist.songs
                 for i in songs:
                     if mode == 'Read':
-                        st.write(i.lyrics)
+                        lyrics = i.lyrics
+                        st.write(lyrics)
                         break
                     elif mode == 'Fill in the blanks file':
                         doc = selected_model(i.lyrics)
                         tokens = process_text(doc, selected_structures, blank=True, highlight=False)
-                        st.write(annotated_text(*tokens))
+                        modified_text = annotated_text(*tokens)
+                        st.write(modified_text)
                         if len(tokens) > 0:
                             break
                     elif mode == 'Highlight chosen structure':
                         doc = selected_model(i.lyrics)
                         tokens = process_text(doc, selected_structures, blank=False, highlight=True)
-                        annotated_text(*tokens)
+                        highlighted_text = annotated_text(*tokens)
+                        st.write(highlighted_text)
                         if len(tokens) > 0:
                             break
 
@@ -85,7 +86,8 @@ def process_text(doc, selected_structures, blank=False, highlight=False):
 
 def load_models():
     portuguese_model = spacy.load("./models/pt/")
-    models = {"pt": portuguese_model}
+    english_model = spacy.load("./models/en/")
+    models = {"pt": portuguese_model, 'en':english_model}
     return models
 
 
