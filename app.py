@@ -1,3 +1,4 @@
+import annotated as annotated
 import streamlit as st
 import spacy
 import os
