@@ -4,6 +4,7 @@ import os
 from time import sleep
 import json
 import spotipy
+from PIL import Image
 import lyricsgenius as lg
 from annotated_text import annotated_text
 
@@ -16,6 +17,9 @@ genius = lg.Genius(genius_access_token)
 # @st.cache(show_spinner=False, allow_output_mutation=True, suppress_st_warning=True)
 
 def main():
+    logo = Image.open(r'/home/luisa/Downloads/musical.png')
+    st.sidebar.image(logo, width=120)
+    st.sidebar.title('Instrumental')
     menu = ['Home', 'About']
     choice = st.sidebar.selectbox("Menu", menu)
 
@@ -34,7 +38,9 @@ def main():
         selected_language = st.sidebar.selectbox("Select a language", options=['pt', 'en'])
         selected_structures = st.sidebar.selectbox(
             "Select a grammar structure",
-            options=['PRON', 'NOUN', 'VERB'])
+            options=['Pronouns', 'Nouns', 'Verbs', 'Proper Nouns', 'Subject',
+                     'Relative Pronouns',
+                     'Verbs in Present Tense'])
         models = load_models()
         selected_model = models[selected_language]
         mode = st.radio('Mode', ('Read', 'Highlight chosen structure', 'Fill in the blanks file'))
@@ -66,18 +72,22 @@ def main():
 
 
 def process_text(doc, selected_structures, blank=False, highlight=False):
+    grammar_structures = {'Pronouns': 'PRON', 'Nouns': "NOUN", 'Verbs': 'VERB', 'Proper Nouns': 'PROPN',
+                          'Subject': 'nsubj', 'Relative Pronouns': 'PronType=Rel',
+                          'Verbs in Present Tense': 'Tense=Pres'}
+    structure = grammar_structures[selected_structures]
     tokens = []
     if blank:
         for token in doc:
-            if token.pos_ == selected_structures:
+            if token.pos_ == structure:
                 tokens.append((" " + "___" * len(token.text) + " "))
             else:
                 tokens.append((" " + token.text + " "))
 
     elif highlight:
         for token in doc:
-            if token.pos_ == selected_structures:
-                tokens.append((token.text, selected_structures, "#faa"))
+            if token.pos_ == structure:
+                tokens.append((token.text, structure, "#faa"))
             else:
                 tokens.append((" " + token.text + " "))
 
@@ -87,7 +97,7 @@ def process_text(doc, selected_structures, blank=False, highlight=False):
 def load_models():
     portuguese_model = spacy.load("./models/pt/")
     english_model = spacy.load("./models/en/")
-    models = {"pt": portuguese_model, 'en':english_model}
+    models = {"pt": portuguese_model, 'en': english_model}
     return models
 
 
