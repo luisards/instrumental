@@ -1,7 +1,6 @@
 import streamlit as st
 import spacy
 import os
-#from PIL import Image
 import lyricsgenius as lg
 from annotated_text import annotated_text
 
@@ -13,9 +12,7 @@ genius = lg.Genius(genius_access_token)
 
 # @st.cache(show_spinner=False, allow_output_mutation=True, suppress_st_warning=True)
 def main():
-
-    #logo = Image.open(r'/home/luisa/Downloads/book.png')
-    # st.sidebar.image(logo, width=120)
+    st.sidebar.image("./assets/book.png", width=120)
     st.sidebar.title('Instrumental')
     menu = ['Home', 'About']
     choice = st.sidebar.selectbox("Menu", menu)
