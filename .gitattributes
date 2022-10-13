@@ -1,1 +1,2 @@
 models/pt/vocab/vectors filter=lfs diff=lfs merge=lfs -text
+models/pt/vocab/lookups.bin filter=lfs diff=lfs merge=lfs -text
