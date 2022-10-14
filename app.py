@@ -152,8 +152,8 @@ def process_text(doc, selected_structures, blank=False, highlight=False):
 
 
 def load_models():
-    portuguese_model = spacy.load("./models/pt/")
-    english_model = spacy.load("./models/en/")
+    portuguese_model = spacy.load("pt_core_news_lg-3.4.0/")
+    english_model = spacy.load("en_core_web_sm-3.4.0")
     models = {"pt": portuguese_model, 'en': english_model}
     return models
 
