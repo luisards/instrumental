@@ -3,6 +3,9 @@ import spacy
 import os
 import lyricsgenius as lg
 from annotated_text import annotated_text
+import pt_core_news_lg
+import en_core_web_sm
+
 
 genius_access_token = os.environ['GENIUS_ACCESS_TOKEN']
 
@@ -152,8 +155,8 @@ def process_text(doc, selected_structures, blank=False, highlight=False):
 
 
 def load_models():
-    portuguese_model = spacy.load("pt_core_news_lg-3.4.0/")
-    english_model = spacy.load("en_core_web_sm-3.4.0")
+    portuguese_model = pt_core_news_lg.load()
+    english_model = en_core_web_sm.load()
     models = {"pt": portuguese_model, 'en': english_model}
     return models
 
