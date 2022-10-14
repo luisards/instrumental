@@ -1,6 +1,6 @@
 streamlit==1.12.0
 lyricsgenius==3.0.1
 st-annotated-text==3.0.0
-spacy==3.4.1
-https://github.com/explosion/spacy-models/releases/download/pt_core_news_lg-3.4.0/pt_core_news_lg-3.4.0.tar.gz#egg= pt_core_news_lg
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.3.0/en_core_web_sm-3.3.0.tar.gz#egg=en_core_web_sm
+spacy==3.4.0
+https://github.com/explosion/spacy-models/releases/download/pt_core_news_lg-3.4.0/pt_core_news_lg-3.4.0.tar.gz#egg=pt_core_news_lg
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.4.0/en_core_web_sm-3.4.0.tar.gz#egg=en_core_web_sm
