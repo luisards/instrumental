@@ -1,4 +1,4 @@
-<a href="https://explosion.ai"><img src="https://user-images.githubusercontent.com/56673771/195822644-cd8149b7-6cec-4102-bba3-2a9747e799cd.png" width="125" height="125" align="right" /></a>
+<a href="https://instrumental-app.herokuapp.com"><img src="https://user-images.githubusercontent.com/56673771/195822644-cd8149b7-6cec-4102-bba3-2a9747e799cd.png" width="125" height="125" align="right" /></a>
 # Instrumental: Practice grammar with music
 Instrumental is an app that helps language learners find lyrics from their favorite artists containing the grammar structures they are currently learning.
 
