@@ -4,7 +4,7 @@ Instrumental is an app that helps language learners find lyrics from their favor
 
 ## 📖 Features
 Instrumental currently has the following basic features:
-- Find a song and read the lyrics 
+- Find a song containing a grammar structure and read the lyrics 
 - Read the lyrics with the chosen grammar structure highlighted
 - Download a fill-in-the-blanks exercise with the lyrics
 
@@ -17,6 +17,8 @@ Instrumental currently has the following basic features:
 - More languages!
 
 ## 💻 Acess it
+https://instrumental.ribeiro.sbs
+or
 https://instrumental-app.herokuapp.com
 
 
