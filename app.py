@@ -6,7 +6,6 @@ from annotated_text import annotated_text
 import pt_core_news_sm
 import en_core_web_sm
 
-
 genius_access_token = os.environ['GENIUS_ACCESS_TOKEN']
 
 # genius object
@@ -15,8 +14,9 @@ genius = lg.Genius(genius_access_token)
 
 # @st.cache(show_spinner=False, allow_output_mutation=True, suppress_st_warning=True)
 def main():
-    st.sidebar.image("./assets/book.png", width=120)
-    st.sidebar.title('Instrumental')
+    st.sidebar.image("./assets/book.png", use_column_width=True)
+    # st.sidebar.title('Instrumental')
+    st.sidebar.markdown("<h1 style='text-align: center; color: black;'>Instrumental</h1>", unsafe_allow_html=True)
     menu = ['Home', 'About']
     choice = st.sidebar.selectbox("Menu", menu)
 
@@ -32,10 +32,10 @@ def main():
                 submit_search = st.form_submit_button(label='Search')
             with nav2:
                 selected_structures = st.selectbox("Select a grammar structure",
-                                                   options=['Pronouns', 'Nouns', 'Verbs',
-                                                            'Subject',
-                                                            'Relative Pronouns',
-                                                            'Verbs in Present Tense'])
+                                                   options=['Pronouns', 'Relative Pronouns',
+                                                            'Nouns', 'Verbs',
+                                                            'Verbs in Present Tense',
+                                                            'Subject', ])
             with nav3:
                 selected_language = st.selectbox("Select a language", options=['pt', 'en'])
 
@@ -46,7 +46,11 @@ def main():
             with col1:
                 if submit_search:
                     st.success("Looking for {}'s songs containing {}.".format(search_term, selected_structures))
-                    artist = genius.search_artist(search_term, max_songs=5, sort="popularity")
+                    try:
+                        artist = genius.search_artist(search_term, max_songs=5, sort="popularity")
+                    except:
+                        st.error('Something went wrong.Please try again')
+                        artist = genius.search_artist(search_term, max_songs=5, sort="popularity")
                     songs = artist.songs
                     for i in songs:
                         lyrics = i.lyrics
@@ -59,15 +63,16 @@ def main():
                             st.download_button('Download File', lyrics)
                             break
                         elif mode == 'Fill in the blanks file':
-                            exercise = ''
                             for line in lines:
                                 doc = selected_model(line)
                                 token_list = process_text(doc, selected_structures, blank=True, highlight=False)
+                                exercise = ''
                                 for token in token_list:
                                     exercise = exercise + token + " "
                                 exercise = exercise + '\n'
-                            st.write(exercise)
+                                st.write(exercise)
                             st.download_button('Download File', exercise)
+                            break
                             if "_" in exercise:
                                 break
                         elif mode == 'Highlight chosen structure':
@@ -91,7 +96,7 @@ def main():
                       '- Audio support\n' \
                       '- Listening comprehension exercises\n' \
                       '- More grammar structures\n' \
-                      '- More songs\n' \
+                      '- Get more than one song\n' \
                       '- More languages!'
 
         st.subheader('Coming Soon')
