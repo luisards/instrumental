@@ -18,7 +18,3 @@ Instrumental currently has the following basic features:
 
 ## 💻 Acess it
 https://instrumental.ribeiro.sbs
-or
-https://instrumental-app.herokuapp.com
-
-
